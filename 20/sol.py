@@ -116,13 +116,10 @@ def check_monsters(picture, y, x):
     deltas = [(0, 0), (1, 1), (4, 1), (5, 0), (6, 0), (7, 1),
               (10, 1), (11, 0), (12, 0), (13, 1), (16, 1),
               (17, 0), (18, 0), (18, -1), (19, 0)]
-    c = 0
     for dx, dy in deltas:
-        if picture[y+dy][x+dx] == "#":
-            c += 1
-    if c == len(deltas):
-        return True
-    return False
+        if picture[y+dy][x+dx] != "#":
+            return False
+    return True
 
 
 def part2(data):
