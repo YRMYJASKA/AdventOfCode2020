@@ -35,11 +35,6 @@ def rotate_tile(tile, rot, hflip, vflip, length=TILE_LEN):
 
     # Horizontal flip
     if hflip:
-        # for i in range(length):
-        #     for j in range(length//2):
-        #         t = tile[j][i]
-        #         tile[j][i] = tile[length - 1 - j][i]
-        #         tile[length - 1 - j][i] = t
         tile = tile[::-1]
     # Vertical flip
     if vflip:
@@ -108,17 +103,10 @@ def determine_orientation(rot, hflip, vflip):
     return dirs
 
 
-def determine_edge(rot, hflip, vflip, edge_dir, edge):
+def determine_edge(rot, hflip, vflip, edge):
     ''' Determine how an edge is affected by its orientation,
         output: clockwise string of the current edge
     '''
-    # dir_i = ['N', 'E', 'S', 'W'].index(edge_dir)
-    # edge_dir_new = rotate(rot)[dir_i]
-
-    # if edge_dir_new in ['E', 'W'] and hflip:
-    #     edge = edge[::-1]
-    # elif edge_dir_new in ['N', 'S'] and vflip:
-    #     edge = edge[::-1]
     if hflip ^ vflip:
         edge = edge[::-1]
     return edge
@@ -139,10 +127,12 @@ def check_monsters(picture, y, x):
 
 def part2(data):
     edges, connections = connecttiles(data)
+
     # start by assembling the tiles
     dim = int(sqrt(len(connections)))
     # 4-tuple 2D array. (tileid, rotation, hor_flip, ver_flip)
-    big_picture = [[(0, 0, False, False) for _ in range(dim)] for _ in range(dim)]
+    big_picture = [[(0, 0, False, False) for _ in range(dim)]
+                   for _ in range(dim)]
 
     # Fix one of the corners to the top left
     for k, v in connections.items():
@@ -174,14 +164,13 @@ def part2(data):
 
             big_picture[0][0] = (k, rot, hflip, vflip)
             break
+
     # Start building from that corner
+    # One connection determines the rotation of the next tile
     for y in range(dim):
         for x in range(dim):
             if x == 0 and y == 0:
                 continue
-            # no need to consider all connections
-            # because one connection defines rotation and flip
-            # Hence we just do them row by row
 
             # Determine this tile
             if x == 0:
@@ -200,7 +189,7 @@ def part2(data):
 
             # Find the new oriented edge of the connecting tile
             new_connedge = determine_edge(crot, chflip,
-                                          cvflip, direction, connedge)
+                                          cvflip,  connedge)
             # Find the orientation of this new tile
             # NOTE: This might not work so if it is buggy come here
             rot, hflip, vflip = 0, False, False
@@ -245,7 +234,8 @@ def part2(data):
                     for r in j:
                         if r[0] == 0:
                             continue
-                        tile_row.append(rotate_tile(data[r[0]], r[1], r[2], r[3]))
+                        tile_row.append(rotate_tile(data[r[0]], r[1],
+                                        r[2], r[3]))
                     if len(tile_row) == 0:
                         break
                     for i in range(TILE_LEN):
@@ -294,6 +284,8 @@ def part2(data):
     total = 0
     for l in picture:
         total += "".join(l).count("#")
+
+    # Finally, count the number of non-monster '#'
     return total - cc*15
 
 
