@@ -152,7 +152,7 @@ def part2(data):
                     # Rotation
                     rot = 180
             newc = connections[k][determine_orientation(rot, hflip, vflip)[2]]
-            if connections[k]["S"] == 0 or newc == 0:
+            if newc == 0:
                 e1 = edges[k]["N"]
                 e2 = edges[connections[k]["N"][0]][connections[k]["N"][1]]
                 # This can only be a flip
@@ -288,7 +288,7 @@ def part2(data):
 
 if __name__ == "__main__":
     idata = {}
-    with open("input.txt", "r") as f:
+    with open("test.txt", "r") as f:
         tilen = 0
         for line in f:
             row = []
