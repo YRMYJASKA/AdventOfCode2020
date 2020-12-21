@@ -288,7 +288,7 @@ def part2(data):
 
 if __name__ == "__main__":
     idata = {}
-    with open("test.txt", "r") as f:
+    with open("input.txt", "r") as f:
         tilen = 0
         for line in f:
             row = []
