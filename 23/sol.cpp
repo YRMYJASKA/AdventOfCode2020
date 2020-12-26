@@ -74,28 +74,16 @@ long long solution(string starting, int N = 100, bool part2 = false) {
         // Move on
         curr = curr->nxt;
     }
+    curr = num_to_pos[0];
+
     if (part2) {
-        curr = num_to_pos[0];
-        if (curr->val == 1) {
-            return (long long)(curr->nxt->val) *
-                   (long long)(curr->nxt->nxt->val);
-        }
-        curr = curr->nxt;
+        return (long long)(curr->nxt->val) * (long long)(curr->nxt->nxt->val);
     }
 
     string answer = "";
-    int counter = 0;
-    bool record = false;
-    while (counter < 8) {
+    for (int i = 0; i < 8; i++) {
         curr = curr->nxt;
-        if (curr->val == 1) {
-            record = true;
-            continue;
-        }
-        if (record) {
-            answer += to_string(curr->val);
-            counter++;
-        }
+        answer += to_string(curr->val);
     }
 
     return atoll(answer.c_str());

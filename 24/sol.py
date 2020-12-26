@@ -106,6 +106,5 @@ if __name__ == "__main__":
                     ll.append(l[c:c+2])
                     c += 2
             idata.append(ll)
-    print(idata)
     print("Part 1:", part1(idata))
     print("Part 2:", part2(idata))
